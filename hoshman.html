@@ -1,0 +1,636 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ربات تلگرام - ابزارهای آنلاین</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        
+        :root {
+            --primary: #0088cc;
+            --secondary: #24a5e0;
+            --accent: #ff7b31;
+            --light: #f8f9fa;
+            --dark: #1a1a1a;
+            --success: #28a745;
+            --danger: #dc3545;
+            --warning: #ffc107;
+            --info: #17a2b8;
+        }
+        
+        body {
+            background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);
+            color: #333;
+            min-height: 100vh;
+            padding: 0;
+            margin: 0;
+        }
+        
+        .container {
+            max-width: 100%;
+            margin: 0 auto;
+            padding: 15px;
+        }
+        
+        header {
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 15px;
+            padding: 15px;
+            margin-bottom: 20px;
+            text-align: center;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+            backdrop-filter: blur(10px);
+        }
+        
+        .logo {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 10px;
+        }
+        
+        .logo i {
+            font-size: 2.5rem;
+            color: var(--primary);
+            margin-left: 10px;
+        }
+        
+        h1 {
+            color: var(--primary);
+            font-size: 1.5rem;
+            margin-bottom: 5px;
+        }
+        
+        .subtitle {
+            color: #666;
+            font-size: 0.9rem;
+        }
+        
+        .card {
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 15px;
+            padding: 20px;
+            margin-bottom: 20px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+            backdrop-filter: blur(10px);
+        }
+        
+        .card-title {
+            display: flex;
+            align-items: center;
+            margin-bottom: 15px;
+            color: var(--primary);
+            border-bottom: 2px solid #f0f0f0;
+            padding-bottom: 10px;
+        }
+        
+        .card-title i {
+            margin-left: 10px;
+            font-size: 1.2rem;
+        }
+        
+        .btn {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: var(--primary);
+            color: white;
+            padding: 15px;
+            border: none;
+            border-radius: 12px;
+            cursor: pointer;
+            font-size: 16px;
+            margin-bottom: 12px;
+            width: 100%;
+            transition: all 0.3s;
+            text-decoration: none;
+        }
+        
+        .btn i {
+            margin-left: 10px;
+        }
+        
+        .btn:hover {
+            background: var(--secondary);
+            transform: translateY(-2px);
+            box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
+        }
+        
+        .btn-secondary {
+            background: var(--secondary);
+        }
+        
+        .btn-accent {
+            background: var(--accent);
+        }
+        
+        .btn-success {
+            background: var(--success);
+        }
+        
+        .btn-warning {
+            background: var(--warning);
+            color: #333;
+        }
+        
+        .btn-danger {
+            background: var(--danger);
+        }
+        
+        .btn-info {
+            background: var(--info);
+        }
+        
+        .btn-small {
+            padding: 10px 15px;
+            font-size: 14px;
+        }
+        
+        .language-selector {
+            display: flex;
+            justify-content: center;
+            margin: 15px 0;
+        }
+        
+        .lang-btn {
+            padding: 8px 15px;
+            margin: 0 5px;
+            border-radius: 20px;
+            background: #f0f0f0;
+            border: none;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+        
+        .lang-btn.active {
+            background: var(--primary);
+            color: white;
+        }
+        
+        .tab-content {
+            display: none;
+        }
+        
+        .tab-content.active {
+            display: block;
+        }
+        
+        .tabs {
+            display: flex;
+            justify-content: space-around;
+            margin-bottom: 20px;
+            background: rgba(255, 255, 255, 0.9);
+            border-radius: 50px;
+            padding: 5px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+        }
+        
+        .tab {
+            padding: 10px 15px;
+            border-radius: 50px;
+            cursor: pointer;
+            transition: all 0.3s;
+            text-align: center;
+            flex: 1;
+            font-weight: 500;
+        }
+        
+        .tab.active {
+            background: var(--primary);
+            color: white;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+        
+        .tool-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 12px;
+        }
+        
+        .tool-btn {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            background: white;
+            border-radius: 12px;
+            padding: 15px 10px;
+            text-align: center;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.05);
+            transition: all 0.3s;
+            cursor: pointer;
+            text-decoration: none;
+            color: #333;
+        }
+        
+        .tool-btn i {
+            font-size: 1.8rem;
+            margin-bottom: 8px;
+            color: var(--primary);
+        }
+        
+        .tool-btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 6px 12px rgba(0, 0, 0, 0.1);
+        }
+        
+        .price-card {
+            background: linear-gradient(135deg, #2c3e50 0%, #4ca1af 100%);
+            color: white;
+            border-radius: 15px;
+            padding: 15px;
+            margin-bottom: 15px;
+        }
+        
+        .crypto-price {
+            display: flex;
+            justify-content: space-between;
+            padding: 10px 0;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        
+        .crypto-price:last-child {
+            border-bottom: none;
+        }
+        
+        .status-bar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 10px 15px;
+            background: rgba(0, 0, 0, 0.1);
+            border-radius: 10px;
+            margin-top: 15px;
+            font-size: 0.85rem;
+        }
+        
+        .online-dot {
+            width: 10px;
+            height: 10px;
+            background: var(--success);
+            border-radius: 50%;
+            margin-left: 5px;
+        }
+        
+        footer {
+            text-align: center;
+            padding: 20px 0;
+            color: white;
+            font-size: 0.85rem;
+        }
+        
+        /* حالت تیره */
+        .dark-mode {
+            background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
+        }
+        
+        .dark-mode header,
+        .dark-mode .card {
+            background: rgba(30, 30, 46, 0.95);
+            color: #f0f0f0;
+        }
+        
+        .dark-mode .card-title {
+            border-bottom-color: #2a2a3e;
+        }
+        
+        .dark-mode .tool-btn {
+            background: #2a2a3e;
+            color: #f0f0f0;
+        }
+        
+        .dark-mode .tabs {
+            background: rgba(30, 30, 46, 0.9);
+        }
+        
+        .dark-mode .lang-btn {
+            background: #2a2a3e;
+            color: #f0f0f0;
+        }
+        
+        /* ریسپانسیو */
+        @media (max-width: 480px) {
+            .tool-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            h1 {
+                font-size: 1.3rem;
+            }
+            
+            .btn {
+                padding: 12px;
+                font-size: 14px;
+            }
+        }
+        
+        @media (min-width: 768px) {
+            .container {
+                max-width: 600px;
+            }
+        }
+        
+        /* انیمیشن ها */
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        .fade-in {
+            animation: fadeIn 0.5s ease forwards;
+        }
+        
+        /* اسکرول بار سفارشی */
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+        
+        ::-webkit-scrollbar-track {
+            background: #f1f1f1;
+            border-radius: 10px;
+        }
+        
+        ::-webkit-scrollbar-thumb {
+            background: var(--primary);
+            border-radius: 10px;
+        }
+        
+        ::-webkit-scrollbar-thumb:hover {
+            background: var(--secondary);
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header class="fade-in">
+            <div class="logo">
+                <i class="fab fa-telegram"></i>
+                <div>
+                    <h1>ربات تلگرام - ابزارهای آنلاین</h1>
+                    <p class="subtitle">دسترسی به بهترین ابزارهای اینترنتی</p>
+                </div>
+            </div>
+            
+            <div class="language-selector">
+                <button class="lang-btn active" id="lang-fa">فارسی</button>
+                <button class="lang-btn" id="lang-en">English</button>
+            </div>
+            
+            <div class="status-bar">
+                <span>وضعیت: <span class="online-dot"></span> آنلاین</span>
+                <span>نسخه: 1.0.0</span>
+            </div>
+        </header>
+        
+        <div class="tabs">
+            <div class="tab active" data-tab="main">منوی اصلی</div>
+            <div class="tab" data-tab="tools">ابزارها</div>
+            <div class="tab" data-tab="tests">تست‌ها</div>
+        </div>
+        
+        <div class="tab-content active" id="main-tab">
+            <div class="card fade-in">
+                <div class="card-title">
+                    <i class="fas fa-coins"></i>
+                    <h2>قیمت ارزهای دیجیتال</h2>
+                </div>
+                
+                <div class="price-card">
+                    <div class="crypto-price">
+                        <span>بیت‌کوین (BTC)</span>
+                        <span>65,432 دلار</span>
+                    </div>
+                    <div class="crypto-price">
+                        <span>اتریوم (ETH)</span>
+                        <span>3,456 دلار</span>
+                    </div>
+                    <div class="crypto-price">
+                        <span>سولانا (SOL)</span>
+                        <span>123.45 دلار</span>
+                    </div>
+                </div>
+                
+                <button class="btn">
+                    <i class="fas fa-sync-alt"></i>
+                    بروزرسانی قیمت‌ها
+                </button>
+            </div>
+            
+            <div class="card fade-in">
+                <div class="card-title">
+                    <i class="fas fa-cogs"></i>
+                    <h2>تنظیمات ربات</h2>
+                </div>
+                
+                <button class="btn btn-secondary">
+                    <i class="fas fa-language"></i>
+                    تغییر زبان
+                </button>
+                
+                <button class="btn btn-info">
+                    <i class="fas fa-question-circle"></i>
+                    راهنمای استفاده
+                </button>
+                
+                <button class="btn btn-warning">
+                    <i class="fas fa-moon"></i>
+                    حالت شب
+                </button>
+            </div>
+        </div>
+        
+        <div class="tab-content" id="tools-tab">
+            <div class="card fade-in">
+                <div class="card-title">
+                    <i class="fas fa-tools"></i>
+                    <h2>ابزارهای آنلاین</h2>
+                </div>
+                
+                <div class="tool-grid">
+                    <a href="https://10015.io" class="tool-btn" target="_blank">
+                        <i class="fas fa-code"></i>
+                        <span>Launch 10015</span>
+                    </a>
+                    
+                    <a href="https://chat.deepseek.com" class="tool-btn" target="_blank">
+                        <i class="fas fa-robot"></i>
+                        <span>Deepseek AI</span>
+                    </a>
+                    
+                    <a href="https://chatgpt.com" class="tool-btn" target="_blank">
+                        <i class="fas fa-comment-alt"></i>
+                        <span>ChatGPT</span>
+                    </a>
+                    
+                    <a href="https://marketvps.ir" class="tool-btn" target="_blank">
+                        <i class="fas fa-server"></i>
+                        <span>Buy VPS</span>
+                    </a>
+                    
+                    <a href="https://app.tweetscout.io" class="tool-btn" target="_blank">
+                        <i class="fab fa-twitter"></i>
+                        <span>TweetScout</span>
+                    </a>
+                    
+                    <a href="https://v2ray.company" class="tool-btn" target="_blank">
+                        <i class="fas fa-shield-alt"></i>
+                        <span>VPN رایگان</span>
+                    </a>
+                    
+                    <a href="https://downloadgram.org" class="tool-btn" target="_blank">
+                        <i class="fab fa-instagram"></i>
+                        <span>دانلود از اینستا</span>
+                    </a>
+                    
+                    <a href="#" class="tool-btn">
+                        <i class="fas fa-ellipsis-h"></i>
+                        <span>ابزارهای بیشتر</span>
+                    </a>
+                </div>
+            </div>
+        </div>
+        
+        <div class="tab-content" id="tests-tab">
+            <div class="card fade-in">
+                <div class="card-title">
+                    <i class="fas fa-brain"></i>
+                    <h2>تست‌های روانشناسی</h2>
+                </div>
+                
+                <a href="https://www.16personalities.com/ir/free-personality-test" class="btn btn-accent" target="_blank">
+                    <i class="fas fa-user"></i>
+                    تست شخصیت MBTI
+                </a>
+                
+                <a href="https://www.psychologytoday.com/intl/tests" class="btn btn-success" target="_blank">
+                    <i class="fas fa-heart"></i>
+                    تست سلامت روان
+                </a>
+                
+                <a href="https://www.mind-diagnostics.org/depression-test" class="btn btn-info" target="_blank">
+                    <i class="fas fa-cloud-rain"></i>
+                    تست اضطراب و افسردگی
+                </a>
+                
+                <a href="https://www.memorado.com/" class="btn btn-warning" target="_blank">
+                    <i class="fas fa-memory"></i>
+                    تست هوش و حافظه
+                </a>
+            </div>
+            
+            <div class="card fade-in">
+                <div class="card-title">
+                    <i class="fas fa-info-circle"></i>
+                    <h2>مشاوره تخصصی</h2>
+                </div>
+                
+                <p style="margin-bottom: 15px; line-height: 1.6;">
+                    توجه: این تست‌ها فقط برای آگاهی هستند و جایگزین تشخیص پزشک نیستند. در صورت نیاز به مشاوره تخصصی، با متخصصان سلامت روان تماس بگیرید.
+                </p>
+                
+                <button class="btn btn-secondary">
+                    <i class="fas fa-phone-alt"></i>
+                    تماس با پشتیبانی
+                </button>
+            </div>
+        </div>
+        
+        <footer>
+            <p>© 2023 ربات تلگرام - ابزارهای آنلاین</p>
+            <p>همه حقوق محفوظ است</p>
+        </footer>
+    </div>
+
+    <script>
+        // مدیریت تب‌ها
+        document.querySelectorAll('.tab').forEach(tab => {
+            tab.addEventListener('click', () => {
+                // حذف کلاس active از همه تب‌ها
+                document.querySelectorAll('.tab').forEach(t => {
+                    t.classList.remove('active');
+                });
+                
+                // حذف کلاس active از همه محتواها
+                document.querySelectorAll('.tab-content').forEach(content => {
+                    content.classList.remove('active');
+                });
+                
+                // اضافه کردن کلاس active به تب انتخاب شده
+                tab.classList.add('active');
+                
+                // نمایش محتوای مرتبط
+                const tabId = tab.getAttribute('data-tab');
+                document.getElementById(`${tabId}-tab`).classList.add('active');
+            });
+        });
+        
+        // مدیریت زبان
+        document.getElementById('lang-fa').addEventListener('click', () => {
+            document.getElementById('lang-fa').classList.add('active');
+            document.getElementById('lang-en').classList.remove('active');
+            // در اینجا می‌توانید منطق تغییر زبان به فارسی را اضافه کنید
+        });
+        
+        document.getElementById('lang-en').addEventListener('click', () => {
+            document.getElementById('lang-en').classList.add('active');
+            document.getElementById('lang-fa').classList.remove('active');
+            // در اینجا می‌توانید منطق تغییر زبان به انگلیسی را اضافه کنید
+        });
+        
+        // مدیریت حالت شب
+        const body = document.body;
+        let isDarkMode = false;
+        
+        document.querySelector('.btn-warning').addEventListener('click', () => {
+            isDarkMode = !isDarkMode;
+            if (isDarkMode) {
+                body.classList.add('dark-mode');
+                document.querySelector('.btn-warning').innerHTML = '<i class="fas fa-sun"></i> حالت روز';
+            } else {
+                body.classList.remove('dark-mode');
+                document.querySelector('.btn-warning').innerHTML = '<i class="fas fa-moon"></i> حالت شب';
+            }
+        });
+        
+        // شبیه‌سازی قیمت‌های ارز
+        function updatePrices() {
+            const prices = document.querySelectorAll('.crypto-price span:nth-child(2)');
+            prices.forEach(priceEl => {
+                const currentPrice = parseFloat(priceEl.textContent.replace(/[^\d.]/g, ''));
+                const change = (Math.random() - 0.5) * 1000;
+                const newPrice = currentPrice + change;
+                priceEl.textContent = newPrice.toLocaleString('en-US', {
+                    maximumFractionDigits: 2,
+                    minimumFractionDigits: 2
+                }) + ' دلار';
+                
+                // تغییر رنگ موقت برای نشان دادن تغییر قیمت
+                priceEl.style.color = change >= 0 ? '#28a745' : '#dc3545';
+                setTimeout(() => {
+                    priceEl.style.color = 'white';
+                }, 1000);
+            });
+            
+            // نمایش اعلان
+            alert('قیمت‌ها با موفقیت بروزرسانی شدند!');
+        }
+        
+        document.querySelector('.btn').addEventListener('click', updatePrices);
+        
+        // افزودن انیمیشن به عناصر
+        document.addEventListener('DOMContentLoaded', () => {
+            const elements = document.querySelectorAll('.card, .btn, .tool-btn');
+            elements.forEach((element, index) => {
+                element.style.animationDelay = `${index * 0.1}s`;
+            });
+        });
+    </script>
+</body>
+</html>
